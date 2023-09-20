@@ -7,6 +7,10 @@ function AlbumList({ user = {}, albums, setAlbums }) {
     setAlbums([]);
     const abortController = new AbortController();
     async function loadAlbums() {
+      //issue was if there was no user, user={} (undefined)
+      if (!user.id){
+        return
+      }
       try {
         const response = await fetch(
           `https://jsonplaceholder.typicode.com/albums?userId=${user.id}`,
@@ -26,6 +30,9 @@ function AlbumList({ user = {}, albums, setAlbums }) {
     loadAlbums();
     return () => abortController.abort();
   }, [user, setAlbums]);
+
+  // const originalTitle = document.title;
+  // console.log(originalTitle)
 
   useEffect(() => {
     //console.log("user", user.name);
